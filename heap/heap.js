@@ -89,19 +89,19 @@ MinHeap.prototype.bubbleUp = function () {
   }
 };
 
-const mh1 = new MinHeap();
+const minHeap = new MinHeap();
 
-mh1.add(1);
-mh1.add(10);
-mh1.add(5);
-mh1.add(100);
-mh1.add(8);
+minHeap.add(1);
+minHeap.add(10);
+minHeap.add(5);
+minHeap.add(100);
+minHeap.add(8);
 
-console.log('min_heap: ', mh1.poll()); // 1
-console.log('min_heap: ', mh1.poll()); // 5
-console.log('min_heap: ', mh1.poll()); // 8
-console.log('min_heap: ', mh1.poll()); // 10
-console.log('min_heap: ', mh1.poll()); // 100
+console.log('min_heap: ', minHeap.poll()); // 1
+console.log('min_heap: ', minHeap.poll()); // 5
+console.log('min_heap: ', minHeap.poll()); // 8
+console.log('min_heap: ', minHeap.poll()); // 10
+console.log('min_heap: ', minHeap.poll()); // 100
 
 // max-heap
 function MaxHeap() {
@@ -109,6 +109,11 @@ function MaxHeap() {
 }
 
 MaxHeap.prototype = Object.create(Heap.prototype); // inherit helpers from heap by copying prototype
+
+MaxHeap.prototype.add = function (item) {
+  this.items[this.items.length] = item;
+  this.bubbleUp();
+};
 
 MaxHeap.prototype.poll = function () {
   let item = this.items[0];
@@ -146,16 +151,16 @@ MaxHeap.prototype.bubbleUp = function () {
   }
 };
 
-const mh2 = new MaxHeap();
+const maxHeap = new MaxHeap();
 
-mh2.add(1);
-mh2.add(10);
-mh2.add(5);
-mh2.add(100);
-mh2.add(8);
+maxHeap.add(1);
+maxHeap.add(10);
+maxHeap.add(5);
+maxHeap.add(100);
+maxHeap.add(8);
 
-console.log('max_heap: ', mh2.poll()); // 100
-console.log('max_heap: ', mh2.poll()); // 10
-console.log('max_heap: ', mh2.poll()); // 8
-console.log('max_heap: ', mh2.poll()); // 5
-console.log('max_heap: ', mh2.poll()); // 1
+console.log('max_heap: ', maxHeap.poll()); // 100
+console.log('max_heap: ', maxHeap.poll()); // 10
+console.log('max_heap: ', maxHeap.poll()); // 8
+console.log('max_heap: ', maxHeap.poll()); // 5
+console.log('max_heap: ', maxHeap.poll()); // 1
