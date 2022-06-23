@@ -1,10 +1,11 @@
-// peek function
+// peek-function
 function Heap() {
   this.items = [];
 }
 
 Heap.prototype.swap = function (index1, index2) {
   let temp = this.items[index1];
+
   this.items[index1] = this.items[index2];
   this.items[index2] = temp;
 };
@@ -17,7 +18,7 @@ Heap.prototype.leftChildIndex = function (index) {
   return index * 2 + 1;
 };
 
-Heap.prototype.rightChildrenIndex = function (index) {
+Heap.prototype.rightChildIndex = function (index) {
   return index * 2 + 2;
 };
 
@@ -30,10 +31,10 @@ Heap.prototype.leftChild = function (index) {
 };
 
 Heap.prototype.rightChild = function (index) {
-  return this.items[this.rightChildrenIndex(index)];
+  return this.items[this.rightChildIndex(index)];
 };
 
-Heap.prototype.peek = function (item) {
+Heap.prototype.peek = function () {
   return this.items[0];
 };
 
@@ -50,34 +51,18 @@ MinHeap.prototype = Object.create(Heap.prototype); // inherit helpers from heap 
 
 MinHeap.prototype.add = function (item) {
   this.items[this.items.length] = item;
+  console.log(this.items.length);
   this.bubbleUp();
 };
 
 MinHeap.prototype.poll = function () {
   let item = this.items[0];
+
   this.items[0] = this.items[this.items.length - 1];
   this.items.pop();
   this.bubbleDown();
-  return item;
-};
 
-MinHeap.prototype.bubbleDown = function () {
-  let index = 0;
-  while (
-    this.leftChild(index) &&
-    (this.leftChild(index) < this.items[index] ||
-      this.rightChild(index) < this.items[index])
-  ) {
-    let smallerIndex = this.leftChildIndex(index);
-    if (
-      this.rightChild(index) &&
-      this.rightChild(index) < this.items[smallerIndex]
-    ) {
-      smallerIndex = this.rightChildrenIndex(index);
-    }
-    this.swap(smallerIndex, index);
-    index = smallerIndex;
-  }
+  return item;
 };
 
 MinHeap.prototype.bubbleUp = function () {
@@ -89,6 +74,28 @@ MinHeap.prototype.bubbleUp = function () {
   }
 };
 
+MinHeap.prototype.bubbleDown = function () {
+  let index = 0;
+
+  while (
+    this.leftChild(index) &&
+    (this.leftChild(index) < this.items[index] ||
+      this.rightChild(index) < this.items[index])
+  ) {
+    let smallerIndex = this.leftChildIndex(index);
+
+    if (
+      this.rightChild(index) &&
+      this.rightChild(index) < this.items[smallerIndex]
+    ) {
+      smallerIndex = this.rightChildIndex(index);
+    }
+
+    this.swap(smallerIndex, index);
+    index = smallerIndex;
+  }
+};
+
 const minHeap = new MinHeap();
 
 minHeap.add(1);
@@ -97,11 +104,11 @@ minHeap.add(5);
 minHeap.add(100);
 minHeap.add(8);
 
-console.log('min_heap: ', minHeap.poll()); // 1
-console.log('min_heap: ', minHeap.poll()); // 5
-console.log('min_heap: ', minHeap.poll()); // 8
-console.log('min_heap: ', minHeap.poll()); // 10
-console.log('min_heap: ', minHeap.poll()); // 100
+console.log('min_heap:', minHeap.poll()); // 1
+console.log('min_heap:', minHeap.poll()); // 5
+console.log('min_heap:', minHeap.poll()); // 8
+console.log('min_heap:', minHeap.poll()); // 10
+console.log('min_heap:', minHeap.poll()); // 100
 
 // max-heap
 function MaxHeap() {
@@ -117,26 +124,31 @@ MaxHeap.prototype.add = function (item) {
 
 MaxHeap.prototype.poll = function () {
   let item = this.items[0];
+
   this.items[0] = this.items[this.items.length - 1];
   this.items.pop();
   this.bubbleDown();
+
   return item;
 };
 
 MaxHeap.prototype.bubbleDown = function () {
   let index = 0;
+
   while (
     this.leftChild(index) &&
     (this.leftChild(index) > this.items[index] ||
       this.rightChild(index) > this.items[index])
   ) {
     let biggerIndex = this.leftChildIndex(index);
+
     if (
       this.rightChild(index) &&
       this.rightChild(index) > this.items[biggerIndex]
     ) {
-      biggerIndex = this.rightChildrenIndex(index);
+      biggerIndex = this.rightChildIndex(index);
     }
+
     this.swap(biggerIndex, index);
     index = biggerIndex;
   }
@@ -159,8 +171,8 @@ maxHeap.add(5);
 maxHeap.add(100);
 maxHeap.add(8);
 
-console.log('max_heap: ', maxHeap.poll()); // 100
-console.log('max_heap: ', maxHeap.poll()); // 10
-console.log('max_heap: ', maxHeap.poll()); // 8
-console.log('max_heap: ', maxHeap.poll()); // 5
-console.log('max_heap: ', maxHeap.poll()); // 1
+console.log('max_heap:', maxHeap.poll()); // 100
+console.log('max_heap:', maxHeap.poll()); // 10
+console.log('max_heap:', maxHeap.poll()); // 8
+console.log('max_heap:', maxHeap.poll()); // 5
+console.log('max_heap:', maxHeap.poll()); // 1
