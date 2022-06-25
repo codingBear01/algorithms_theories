@@ -1,4 +1,3 @@
-// peek-function
 function Heap() {
   this.items = [];
 }

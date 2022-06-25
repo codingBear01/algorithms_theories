@@ -1,4 +1,3 @@
-// peek-class
 class Heap {
   constructor() {
     this.items = [];
