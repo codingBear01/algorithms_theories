@@ -178,3 +178,88 @@ console.log('max_heap:', maxHeap.poll()); // 10
 console.log('max_heap:', maxHeap.poll()); // 8
 console.log('max_heap:', maxHeap.poll()); // 5
 console.log('max_heap:', maxHeap.poll()); // 1
+
+class MedianHeap {
+  constructor() {
+    this.minHeap = new MinHeap();
+    this.maxHeap = new MaxHeap();
+  }
+
+  add(value) {
+    if (value > this.median()) {
+      this.minHeap.add(value);
+    } else {
+      this.maxHeap.add(value);
+    }
+
+    // Re balancing
+    if (this.minHeap.size() - this.maxHeap.size() > 1) {
+      this.maxHeap.add(this.minHeap.poll());
+    }
+
+    if (this.maxHeap.size() - this.minHeap.size() > 1) {
+      this.minHeap.add(this.maxHeap.poll());
+    }
+  }
+
+  median() {
+    if (this.minHeap.size() === 0 && this.maxHeap.size() === 0) {
+      return Number.NEGATIVE_INFINITY;
+    } else if (this.minHeap.size() === this.maxHeap.size()) {
+      return (this.minHeap.peek() + this.maxHeap.peek()) / 2;
+    } else if (this.minHeap.size() > this.maxHeap.size()) {
+      return this.minHeap.peek();
+    } else {
+      return this.maxHeap.peek();
+    }
+  }
+}
+
+const medianH = new MedianHeap();
+
+medianH.add(12);
+console.log('median_heap', medianH.median()); // 12
+medianH.add(2);
+console.log('median_heap', medianH.median()); // 7
+medianH.add(23);
+console.log('median_heap', medianH.median()); // 12
+medianH.add(13);
+console.log('median_heap', medianH.median()); // 12.5
+
+const array1 = [12, 3, 13, 4, 2, 40, 23];
+
+function getKthSmallestElement(array, k) {
+  const minH = new MinHeap();
+
+  for (let i = 0, arrayLength = array.length; i < arrayLength; i++) {
+    minH.add(array[i]);
+  }
+
+  for (let i = 1; i < k; i++) {
+    minH.poll();
+  }
+
+  return minH.poll();
+}
+
+console.log('getKthSmallestElement(2)', getKthSmallestElement(array1, 2)); // 3
+console.log('getKthSmallestElement(1)', getKthSmallestElement(array1, 1)); // 2
+console.log('getKthSmallestElement(7)', getKthSmallestElement(array1, 7)); // 40
+
+function getKthBiggestElement(array, k) {
+  const maxH = new MaxHeap();
+
+  for (let i = 0, arrayLength = array.length; i < arrayLength; i++) {
+    maxH.add(array[i]);
+  }
+
+  for (let i = 1; i < k; i++) {
+    maxH.poll();
+  }
+
+  return maxH.poll();
+}
+
+console.log('getKthBiggestElement(2)', getKthBiggestElement(array1, 2)); // 23
+console.log('getKthBiggestElement(1)', getKthBiggestElement(array1, 1)); // 40
+console.log('getKthBiggestElement(7)', getKthBiggestElement(array1, 7)); // 2
